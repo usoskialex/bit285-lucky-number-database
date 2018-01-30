@@ -18,8 +18,12 @@
     @using (this.Html.BeginForm())
     {
         <div class="spinner">
-            @{ int[] spinner = Model.Spinner; decimal balance = Model.Balance; }
-            <input type="submit" value="SPIN" />
+            @{ decimal balance = Model.Balance; int[] spinner = Model.Spinner;
+                if (balance > 0)
+                { <input type="submit" value="SPIN" /> }
+                else
+                { <input type="submit" value="SPIN" disabled />}
+            }
             <div>@spinner[0]</div><div>@spinner[1]</div><div>@spinner[2]</div>
         </div>
         <h1>Lucky Number @Model.Number</h1>
