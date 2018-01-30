@@ -1,0 +1,41 @@
+﻿@model lucky_number_database.Models.LuckyNumber
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Lucky Number @Model.Number</title>
+    <style type="text/css">
+        body{background-color:lightgoldenrodyellow;}
+        .spinner * {display: inline-block;font: bold 36px 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;}
+        .spinner div {background-color: yellow;border:solid thin black;margin:0 2px;}
+        .register {font:bold 18px 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; color:lime;background-color:#333;padding:0 4px;}
+        .gameover{font:bold 24px san-serif; color:darkred;padding:10px;}
+    </style>
+</head>
+<body>
+    @using (this.Html.BeginForm())
+    {
+        <div class="spinner">
+            @{ int[] spinner = Model.Spinner; decimal balance = Model.Balance; }
+            <input type="submit" value="SPIN" />
+            <div>@spinner[0]</div><div>@spinner[1]</div><div>@spinner[2]</div>
+        </div>
+        <h1>Lucky Number @Model.Number</h1>
+        <p>Your Current Balance is: <span class="register"> $ @balance</span></p>
+        <div>
+            Pick your Lucky Number:
+            @Html.EditorFor(model => model.Number, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Number, "", new { @class = "text-danger" })
+        </div>
+        <div class="gameover">@Model.Message</div>
+        if (spinner[0] == Model.Number || spinner[1] == Model.Number || spinner[2] == Model.Number)
+        {
+            <img src="~/Images/LuckySevenExercise.jpg" style="display:block" alt="coins" />
+        }
+
+        <input type="hidden" name="Balance" value="@balance" />
+    }
+</body>
+</html>
