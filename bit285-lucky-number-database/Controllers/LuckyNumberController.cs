@@ -18,6 +18,7 @@ namespace bit285_lucky_number_database.Controllers
             LuckyNumber myLuck = new LuckyNumber { Number = 7, Balance = 4 };
             dbc.LuckyNumbers.Add(myLuck); // getting properties from myLuck (number and balance)
             dbc.SaveChanges(); //saving changes (go out and touch a database)
+            int AlexLuck = myLuck.LuckyNumberID;
             return View("Spin", myLuck);
         }
 
@@ -28,8 +29,8 @@ namespace bit285_lucky_number_database.Controllers
             LuckyNumber databaseLuck = dbc.LuckyNumbers.Where(m => m.LuckyNumberID == 1).First(); //return 1 record as a luckyNumber
 
 
-//change the balance in the database
-            if(lucky.Balance>0)
+            //change the balance in the database
+            if(databaseLuck.Balance > 0)
             {
                 databaseLuck.Balance -= 1;
             }
@@ -41,5 +42,22 @@ namespace bit285_lucky_number_database.Controllers
 
             return View(databaseLuck);
         }
+
+        [HttpGet]
+        public ActionResult Index()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Index(LuckyNumber luck)
+        {
+
+            dbc.LuckyNumbers.Add(luck);
+            dbc.SaveChanges();
+            
+            return View("Spin", luck);
+        }
+
     }
 }
